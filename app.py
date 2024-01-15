@@ -22,9 +22,7 @@ def download_youtube_audio(playlist_link, destination_folder):
 
     playlist_id = playlist_link.split('/')[-1].split('?')[0]
     playlist = sp.playlist_tracks(playlist_id)
-
-    youtube_urls = []
-
+    
     for track in playlist['items']:
         track_name = track['track']['name']
         artist_name = track['track']['artists'][0]['name']
@@ -38,17 +36,15 @@ def download_youtube_audio(playlist_link, destination_folder):
                 max = v.views
                 maxi = v
         url = maxi.watch_url
-        youtube_urls.append(url)
-        # print(f"Number of views: {maxi.views}")
-        # print(f"{maxi.title}\n{maxi.watch_url}\n")
-    
-    for url in youtube_urls:
+        
         video = YouTube(url)
         audio_stream = video.streams.filter(only_audio=True).first()
-        download_path = os.path.join(destination_folder, secure_filename(video.title))
-        
+
+        download_path = os.path.join(destination_folder)
+
         print(f"Downloading {video.title} to {download_path}")
         audio_stream.download(download_path)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -56,7 +52,7 @@ def index():
         playlist_link = request.form['playlist_link']
         destination_folder = request.form['destination_folder']
 
-        os.makedirs(destination_folder, exist_ok=True)
+        # os.makedirs(destination_folder, exist_ok=True)
 
         download_youtube_audio(playlist_link, destination_folder)
         print(f"Received Playlist Link: {playlist_link}")
@@ -65,4 +61,3 @@ def index():
         return redirect(url_for('index'))  
 
     return render_template('index.html')
-

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,14 +88,14 @@
 <body>
     <div id="container">
         <h1>Welcome to the Web App</h1>
-        <form action="/" method="post">
+        <form action="/" method="post" enctype="multipart/form-data">
             <label for="playlist_link">Enter Spotify Playlist Link:</label>
             <input type="text" id="playlist_link" name="playlist_link" required>
-
+            <br>
             <label for="destination_folder">Select Destination Folder:</label>
-            <input type="file" id="destination_folder" name="destination_folder" webkitdirectory directory required multiple>
-
-            <button type="submit">Download Songs</button>
+            <input type="text" id="destination_folder" name="destination_folder" placeholder="E.g., /path/to/destination" required>
+            <br>
+            <button type="submit">Submit</button>
         </form>
     </div>
 </body>
